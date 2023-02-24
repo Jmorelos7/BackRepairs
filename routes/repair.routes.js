@@ -6,15 +6,16 @@ const {
   updateRepair,
   deleteRepair,
 } = require('../controllers/repair.controller');
-const { validIfExistRepair } = require('../middlewares/repair.middlewares');
 const {check} = require('express-validator');
+const { validateFields } = require('../middlewares/validateFields.middlewares');
+const { validIfExistRepair } = require('../middlewares/repair.middlewares');
 
 
 const router = Router();
 
 router.get('/', findAllRepairs);
 
-router.get('/:id', validIfExistRepair, findOneRepair);
+router.get('/:id', validateFields, findOneRepair, validIfExistRepair);
 
 router.post('/', 
 [
@@ -22,13 +23,13 @@ router.post('/',
   check('motorsNumber', 'The MotorsNumber is required').not().isEmpty(),
   check('description', 'The Description is required').not().isEmpty(),
   check('userId', 'The UserId is required').not().isEmpty(),
-  validIfExistRepair,
+  validateFields,
 ],
  createRepair);
 
-router.patch('/:id', validIfExistRepair, updateRepair);
+router.patch('/:id', validateFields, validIfExistRepair, updateRepair);
 
-router.delete('/:id', validIfExistRepair, deleteRepair);
+router.delete('/:id', validateFields, validIfExistRepair, deleteRepair);
 
 module.exports = {
   repairRouter: router,

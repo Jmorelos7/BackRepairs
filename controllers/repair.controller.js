@@ -32,7 +32,7 @@ exports.findOneRepair = catchAsync(async (req, res, next) => {
 exports.createRepair = catchAsync(async (req, res, next) => {
   const { date, userId, description, motorsNumber } = req.body;
 
-  const repair = await Repair.create({ date, userId });
+  const repair = await Repair.create({ date, userId, description, motorsNumber });
 
   return res.status(201).json({
     status: 'success',
